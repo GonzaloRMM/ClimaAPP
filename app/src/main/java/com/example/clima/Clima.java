@@ -17,6 +17,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 //import com.google.gson.JsonObject;
 
@@ -66,8 +67,8 @@ public class Clima extends AppCompatActivity {
     }
  */
     private ListView lv1;
-    private TextView nombre;
-    private Button volver;
+    private TextView nombre,texto;
+    private Button volver,mostrar;
     private String nombre_txt;
     ArrayList<ArrayList<String>> arrayB = new ArrayList<>();
     ArrayList<String>datos=new ArrayList<String>();
@@ -82,6 +83,8 @@ public class Clima extends AppCompatActivity {
         volver=(Button)findViewById(R.id.volver_b);
         Bundle b= getIntent().getExtras();
         nombre_txt=b.getString("nombre");
+        mostrar=(Button)findViewById(R.id.mostrar_b);
+        texto=(TextView)findViewById(R.id.texto);
 
 /*
         clima weather=new clima();
@@ -91,9 +94,68 @@ public class Clima extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+        asd
  */
         asignarNombre(nombre);
         crearAdapter(lv1,recogerDatos());
+        mostrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*
+                RequestQueue queue= Volley.newRequestQueue(Clima.this);
+                String url="http://api.openweathermap.org/data/2.5/weather?q=Granada&appid=b6bf6be4dfd8477c040c44a4b99e6ec7";
+
+                JsonObjectRequest jor=new JsonObjectRequest(Request.Method.GET, url, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    JSONArray array=response.getJSONArray("weather");
+                                    String tiempo="";
+                                    for(int i=0;i<array.length();i++){
+                                        JSONObject object=(JSONObject)array.get(i);
+                                        tiempo+=object.getString("main");
+
+                                        Log.i("ID", "ID: " + object.getString("id"));
+                                        Log.i("MAIN", "MAIN: " + object.getString("main"));
+                                    }
+
+                                    JSONObject main_object= response.getJSONObject("main");
+                                    String tempMax=main_object.getDouble("temp_max")+"";
+                                    String tempMin=main_object.getDouble("temp_min")+"";
+
+                                    texto.setText(tiempo + " "+ tempMax + " "+ tempMin);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                });
+                queue.add(jor);
+                 */
+                RequestQueue queue= Volley.newRequestQueue(Clima.this);
+                //String url="http://api.openweathermap.org/data/2.5/weather?q=Granada&appid=b6bf6be4dfd8477c040c44a4b99e6ec7";
+                //String url="http://api.openweathermap.org/data/2.5/weather?q=Granada";
+                String url="https://www.metaweather.com/api/location/search/?query=London";
+                StringRequest jor=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        texto.setText(response);
+                        
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        texto.setText("No funciona");
+                    }
+                });
+                queue.add(jor);
+            }
+        });
         volver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
