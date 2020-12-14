@@ -16,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -139,8 +140,10 @@ public class Clima extends AppCompatActivity {
                  */
                 RequestQueue queue= Volley.newRequestQueue(Clima.this);
                 //String url="http://api.openweathermap.org/data/2.5/weather?q=Granada&appid=b6bf6be4dfd8477c040c44a4b99e6ec7";
-                //String url="http://api.openweathermap.org/data/2.5/weather?q=Granada";
-                String url="https://www.metaweather.com/api/location/search/?query=London";
+                //String url="http://api.openweathermap.org/data/2.5/weather?q=Granada&appid=ef6268039205afa83791429e9d07bd50";
+                String url="https://www.metaweather.com/api/location/search/?query=Madrid";
+                //String url="https://www.metaweather.com/api/location/766273/";
+/*
                 StringRequest jor=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -153,6 +156,26 @@ public class Clima extends AppCompatActivity {
                         texto.setText("No funciona");
                     }
                 });
+ */
+                JsonArrayRequest jor=new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        String cityID="";
+                        try {
+                            JSONObject cityInfo=response.getJSONObject(0);
+                            cityID=cityInfo.getString("woeid");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        texto.setText(cityID);
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+            });
                 queue.add(jor);
             }
         });
