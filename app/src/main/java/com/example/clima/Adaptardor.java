@@ -31,8 +31,9 @@ public class Adaptardor extends ArrayAdapter {
 
         ((TextView) item.findViewById(R.id.fecha)).setText("Fecha: "+dateString);
         ((TextView) item.findViewById(R.id.imagen)).setText("Tiempo: "+datos.get(0).get(0));
-        ((TextView) item.findViewById(R.id.temperaturaMax)).setText("Temp Max: "+datos.get(0).get(1));
-        ((TextView) item.findViewById(R.id.temperaturaMinima)).setText("Temp Min: "+datos.get(0).get(2));
+        ((TextView) item.findViewById(R.id.temperatura)).setText("Temperatura Actual: "+datos.get(0).get(1)+"ºC");
+        ((TextView) item.findViewById(R.id.temperaturaMax)).setText("Temp Max: "+datos.get(0).get(2)+"ºC");
+        ((TextView) item.findViewById(R.id.temperaturaMinima)).setText("Temp Min: "+datos.get(0).get(3)+"ºC");
         return item;
     }
 }

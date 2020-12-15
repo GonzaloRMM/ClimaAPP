@@ -2,7 +2,7 @@
     <string name="app_name">Clima</string>
 
     <string-array name="ciudades">
-        <item>Málaga</item>
+        <item>London</item>
         <item>Granada</item>
         <item>Madrid</item>
         <item>Barcelona</item>

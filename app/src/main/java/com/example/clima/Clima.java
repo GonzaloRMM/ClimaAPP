@@ -141,7 +141,7 @@ public class Clima extends AppCompatActivity {
                 RequestQueue queue= Volley.newRequestQueue(Clima.this);
                 //String url="http://api.openweathermap.org/data/2.5/weather?q=Granada&appid=b6bf6be4dfd8477c040c44a4b99e6ec7";
                 //String url="http://api.openweathermap.org/data/2.5/weather?q=Granada&appid=ef6268039205afa83791429e9d07bd50";
-                String url="https://www.metaweather.com/api/location/search/?query=Madrid";
+                String url="https://www.metaweather.com/api/location/search/?query="+nombre_txt;
                 //String url="https://www.metaweather.com/api/location/766273/";
 /*
                 StringRequest jor=new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
@@ -167,13 +167,41 @@ public class Clima extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        texto.setText(cityID);
-
+                        Log.i("ID",cityID);
+                        String url2="https://www.metaweather.com/api/location/"+cityID+"/";
+                        JsonObjectRequest objectRequest=new JsonObjectRequest(Request.Method.GET, url2, null,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        String weather="";
+                                        String tiempoMax="";
+                                        String tiempoMin="";
+                                        String tiempoActual="";
+                                        try {
+                                            JSONArray climaDias=response.getJSONArray("consolidated_weather");
+                                            JSONObject dia1=climaDias.getJSONObject(0);
+                                            weather=dia1.getString("weather_state_name");
+                                            tiempoMax=dia1.getInt("max_temp")+"";
+                                            tiempoMin=dia1.getInt("min_temp")+"";
+                                            tiempoActual=dia1.getInt("the_temp")+"";
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        Log.i("Clima",weather);
+                                        texto.setText("Tiempo: "+weather+", Temperatura: "+tiempoActual+"ºC");
+                                    }
+                                }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                           texto.setText("Error");
+                            }
+                        });
+                        queue.add(objectRequest);
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        texto.setText("Fallo");
                     }
             });
                 queue.add(jor);
