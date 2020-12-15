@@ -8,29 +8,39 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Fecha:"
+        android:textSize="20dp"
+        android:textColor="@color/black"
         android:id="@+id/fecha"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Clima:"
+        android:textSize="20dp"
+        android:textColor="@color/black"
         android:id="@+id/imagen"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Temperatura minima:"
+        android:textSize="20dp"
+        android:textColor="@color/black"
         android:id="@+id/temperatura"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Temepratura maxima:"
+        android:textSize="20dp"
+        android:textColor="@color/black"
         android:id="@+id/temperaturaMax"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Temperatura minima:"
+        android:textSize="20dp"
+        android:textColor="@color/black"
         android:id="@+id/temperaturaMinima"/>
 </LinearLayout>
