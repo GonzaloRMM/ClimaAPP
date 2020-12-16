@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -33,6 +34,7 @@ public class Clima extends AppCompatActivity {
     private TextView nombre;
     private Button volver;
     private String nombre_txt;
+    private ImageView imagen;
     ArrayList<ArrayList<String>> arrayB = new ArrayList<>();
     ArrayList<String>datos=new ArrayList<String>();
 
@@ -44,6 +46,7 @@ public class Clima extends AppCompatActivity {
         lv1=(ListView)findViewById(R.id.lv_1);
         nombre=(TextView)findViewById(R.id.Nombre);
         volver=(Button)findViewById(R.id.volver_b);
+        imagen=(ImageView)findViewById(R.id.icono);
         Bundle b= getIntent().getExtras();
         nombre_txt=b.getString("nombre");
 
