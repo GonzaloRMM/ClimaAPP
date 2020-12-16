@@ -74,32 +74,40 @@ public class Clima extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        String weather="";
-                        String tiempoMax="";
-                        String tiempoMin="";
-                        String tiempoActual="";
                         try {
-                            JSONObject cityInfo = response.getJSONObject("main");
-                            tiempoActual = (cityInfo.getInt("temp") - 273) + "";
-                            tiempoMax=(cityInfo.getInt("temp_max") - 273) + "";
-                            tiempoMin=(cityInfo.getInt("temp_min") - 273) + "";
-                            JSONArray weatherArray=response.getJSONArray("weather");
-                            JSONObject array=weatherArray.getJSONObject(0);
-                            weather=array.getString("main");
+                            String cod=response.getString("cod");
+                            if(cod.equals("404")){
+
+                            }else{
+                                JSONObject cityInfo = response.getJSONObject("main");
+                                String tiempoActual ="Temperatura: " + (cityInfo.getInt("temp") - 273) + "ºC";
+                                String tiempoMax="Temp Max: " + (cityInfo.getInt("temp_max") - 273) + "ºC";
+                                String tiempoMin="Temp Min: " + (cityInfo.getInt("temp_min") - 273) + "ºC";
+                                JSONArray weatherArray=response.getJSONArray("weather");
+                                JSONObject array=weatherArray.getJSONObject(0);
+                                String weather=array.getString("main");
+                                datos.add(weather);
+                                datos.add(tiempoActual);
+                                datos.add(tiempoMax);
+                                datos.add(tiempoMin);
+                                arrayB.add(datos);
+                                crearAdapter(lv1,arrayB);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        datos.add(weather);
-                        datos.add(tiempoActual);
-                        datos.add(tiempoMax);
-                        datos.add(tiempoMin);
-                        arrayB.add(datos);
-                        crearAdapter(lv1,arrayB);
+
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i("error","error");
+                datos.add("ERROR");
+                datos.add("404");
+                datos.add("CIUDAD");
+                datos.add("ERRONEA");
+                arrayB.add(datos);
+                crearAdapter(lv1,arrayB);
             }
         });
         queue.add(jor);
