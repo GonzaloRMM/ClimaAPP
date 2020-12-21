@@ -30,11 +30,11 @@ public class Adaptardor extends ArrayAdapter {
         SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
         String dateString = sdf.format(date);
 
-        ((TextView) item.findViewById(R.id.fecha)).setText("Fecha: "+dateString);
-        ((TextView) item.findViewById(R.id.temperatura)).setText(datos.get(0).get(1));
-        ((TextView) item.findViewById(R.id.temperaturaMax)).setText(datos.get(0).get(2));
-        ((TextView) item.findViewById(R.id.temperaturaMinima)).setText(datos.get(0).get(3));
-        switch (datos.get(0).get(0)){
+        ((TextView) item.findViewById(R.id.fecha)).setText("Fecha: "+position);
+        ((TextView) item.findViewById(R.id.temperatura)).setText(datos.get(position).get(1));
+        ((TextView) item.findViewById(R.id.temperaturaMax)).setText(datos.get(position).get(2));
+        ((TextView) item.findViewById(R.id.temperaturaMinima)).setText(datos.get(position).get(3));
+        switch (datos.get(position).get(0)){
             case "Clouds":
                 ((ImageView)item.findViewById(R.id.icono)).setImageResource(R.drawable.nublado);
                 break;
