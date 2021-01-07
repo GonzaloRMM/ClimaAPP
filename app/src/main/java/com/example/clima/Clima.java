@@ -6,10 +6,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -18,6 +20,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.tabs.TabItem;
+import com.google.android.material.tabs.TabLayout;
 
 
 import org.json.JSONArray;
@@ -34,7 +38,7 @@ public class Clima extends AppCompatActivity {
     private TextView nombre;
     private Button volver;
     private String nombre_txt;
-    private ImageView imagen;
+
     ArrayList<ArrayList<String>> arrayB = new ArrayList<>();
     ArrayList<String>datos=new ArrayList<String>();
 
@@ -46,7 +50,6 @@ public class Clima extends AppCompatActivity {
         lv1=(ListView)findViewById(R.id.lv_1);
         nombre=(TextView)findViewById(R.id.Nombre);
         volver=(Button)findViewById(R.id.volver_b);
-        imagen=(ImageView)findViewById(R.id.icono);
         Bundle b= getIntent().getExtras();
         nombre_txt=b.getString("nombre");
 

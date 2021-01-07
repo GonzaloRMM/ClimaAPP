@@ -27,10 +27,10 @@ public class Adaptardor extends ArrayAdapter {
         View item = inflater.inflate(R.layout.list_view,null);
         long date = System.currentTimeMillis();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
-        String dateString = sdf.format(date);
-
-        ((TextView) item.findViewById(R.id.fecha)).setText("Fecha: "+position);
+        SimpleDateFormat actualDate = new SimpleDateFormat("MMM dd");
+        String dateString = actualDate.format(date);
+ 
+        ((TextView) item.findViewById(R.id.fecha)).setText("Fecha: "+dateString);
         ((TextView) item.findViewById(R.id.temperatura)).setText(datos.get(position).get(1));
         ((TextView) item.findViewById(R.id.temperaturaMax)).setText(datos.get(position).get(2));
         ((TextView) item.findViewById(R.id.temperaturaMinima)).setText(datos.get(position).get(3));
