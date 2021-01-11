@@ -22,6 +22,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.JsonObject;
 
 
 import org.json.JSONArray;
@@ -38,6 +39,8 @@ public class Clima extends AppCompatActivity {
     private TextView nombre;
     private Button volver;
     private String nombre_txt;
+    private String lon, lat="";
+
 
     ArrayList<ArrayList<String>> arrayB = new ArrayList<>();
     ArrayList<String>datos=new ArrayList<String>();
@@ -73,9 +76,8 @@ public class Clima extends AppCompatActivity {
     }
 
     public void recogerDatos(){
-        for(int i=0;i<16;i++){
             RequestQueue queue= Volley.newRequestQueue(Clima.this);
-            String url="https://api.openweathermap.org/data/2.5/weather?q="+nombre_txt+"&cnt="+i+"&appid=c5e8291c1d20ea05cb1bd81589023f00";
+            String url="https://api.openweathermap.org/data/2.5/weather?q="+nombre_txt+"&appid=c5e8291c1d20ea05cb1bd81589023f00";
 
             JsonObjectRequest jor=new JsonObjectRequest(Request.Method.GET, url,null,
                     new Response.Listener<JSONObject>() {
@@ -86,6 +88,73 @@ public class Clima extends AppCompatActivity {
                                 if(cod.equals("404")){
 
                                 }else{
+                                    JSONObject coord = response.getJSONObject("coord");
+                                    lon =(coord.getDouble("lon") + "");
+                                    lat=(coord.getDouble("lat") + "");
+
+                                    RequestQueue queue2= Volley.newRequestQueue(Clima.this);
+                                    String url2="https://api.openweathermap.org/data/2.5/onecall?lat="+lat+"&lon="+lon+"&exclude=hourly&appid=ef6268039205afa83791429e9d07bd50";
+
+                                    JsonObjectRequest jor2=new JsonObjectRequest(Request.Method.GET, url2,null,
+                                            new Response.Listener<JSONObject>() {
+                                                @Override
+                                                public void onResponse(JSONObject response2) {
+                                                    try {
+                                                        JSONArray weather = response2.getJSONArray("daily");
+                                                        for(int i=0;i<7;i++){
+                                                            JSONObject array = weather.getJSONObject(i);
+                                                            String dt=array.getInt("dt")+"";
+                                                            JSONArray weatherArray=array.getJSONArray("weather");
+                                                            JSONObject arrayWeather=weatherArray.getJSONObject(0);
+                                                            String descripcion=arrayWeather.getString("main");
+                                                            JSONObject temp=array.getJSONObject("temp");
+                                                            String day="Temp: " + (temp.getInt("day") - 273) + "ºC";
+                                                            String tempMax="Temp Max: " + (temp.getInt("max") - 273) + "ºC";
+                                                            String tempMin="Temp Min: " + (temp.getInt("min") - 273) + "ºC";
+
+                                                            datos.add(dt);
+                                                            datos.add(descripcion);
+                                                            datos.add(day);
+                                                            datos.add(tempMax);
+                                                            datos.add(tempMin);
+                                                            arrayB.add(datos);
+                                                        }
+                                                        crearAdapter(lv1,arrayB);
+
+                            /*
+                            JSONObject cityInfo = response.getJSONObject("main");
+                            String tiempoActual ="Temperatura: " + (cityInfo.getInt("temp") - 273) + "ºC";
+                            String tiempoMax="Temp Max: " + (cityInfo.getInt("temp_max") - 273) + "ºC";
+                            String tiempoMin="Temp Min: " + (cityInfo.getInt("temp_min") - 273) + "ºC";
+                            JSONArray weatherArray=response.getJSONArray("weather");
+                            JSONObject array=weatherArray.getJSONObject(0);
+                            String weather=array.getString("main");
+                            datos.add(weather);
+                            datos.add(tiempoActual);
+                            datos.add(tiempoMax);
+                            datos.add(tiempoMin);
+                            arrayB.add(datos);
+                            crearAdapter(lv1,arrayB);
+                            */
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            Log.i("error","error");
+                                            datos.add("ERROR");
+                                            datos.add("404");
+                                            datos.add("CIUDAD");
+                                            datos.add("ERRONEA");
+                                            arrayB.add(datos);
+                                            crearAdapter(lv1,arrayB);
+                                        }
+                                    });
+                                    queue.add(jor2);
+
+                                    /*
                                     JSONObject cityInfo = response.getJSONObject("main");
                                     String tiempoActual ="Temperatura: " + (cityInfo.getInt("temp") - 273) + "ºC";
                                     String tiempoMax="Temp Max: " + (cityInfo.getInt("temp_max") - 273) + "ºC";
@@ -99,6 +168,7 @@ public class Clima extends AppCompatActivity {
                                     datos.add(tiempoMin);
                                     arrayB.add(datos);
                                     crearAdapter(lv1,arrayB);
+                                     */
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -117,8 +187,6 @@ public class Clima extends AppCompatActivity {
                     crearAdapter(lv1,arrayB);
                 }
             });
-            queue.add(jor);
+        queue.add(jor);
         }
-
-    }
 }
