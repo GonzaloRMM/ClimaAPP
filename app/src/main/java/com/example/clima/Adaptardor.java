@@ -2,6 +2,7 @@ package com.example.clima;
 
 import android.app.Activity;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,11 @@ import java.util.TimeZone;
 public class Adaptardor extends ArrayAdapter {
     private Activity context;
     private ArrayList<ArrayList<String>> datos;
+    int fecha,contador=0;
+    int descripcion=1;
+    int temp=2;
+    int tempMax=3;
+    int tempMin=4;
 
     public Adaptardor(Activity context, ArrayList<ArrayList<String>> datos){
         super(context, R.layout.list_view, datos);
@@ -31,27 +37,51 @@ public class Adaptardor extends ArrayAdapter {
 
         View item = inflater.inflate(R.layout.list_view,null);
 
-        long UTC_TIMEZONE=Long.parseLong(datos.get(position).get(0));
-        String OUTPUT_DATE_FORMATE="dd/MM/yyyy";
 
-        ((TextView) item.findViewById(R.id.fecha)).setText("Fecha: "+getDateFromUTCTimestamp(UTC_TIMEZONE,OUTPUT_DATE_FORMATE));
-        ((TextView) item.findViewById(R.id.temperatura)).setText(datos.get(position).get(2));
-        ((TextView) item.findViewById(R.id.temperaturaMax)).setText(datos.get(position).get(3));
-        ((TextView) item.findViewById(R.id.temperaturaMinima)).setText(datos.get(position).get(4));
-        switch (datos.get(position).get(1)){
-            case "Clouds":
-                ((ImageView)item.findViewById(R.id.icono)).setImageResource(R.drawable.nublado);
-                break;
-            case "Clear":
-                ((ImageView)item.findViewById(R.id.icono)).setImageResource(R.drawable.soleado);
-                break;
-            case "Snow":
-                ((ImageView)item.findViewById(R.id.icono)).setImageResource(R.drawable.nieve);
-                break;
-            case "Rain":
-                ((ImageView)item.findViewById(R.id.icono)).setImageResource(R.drawable.lluvia);
-                break;
+            long UTC_TIMEZONE=Long.parseLong(datos.get(0).get(fecha));
+            String OUTPUT_DATE_FORMATE="dd/MM/yyyy";
+
+            fecha=fecha+5;
+        if(fecha>=35){
+            fecha=0;
         }
+
+            switch (datos.get(0).get(descripcion)){
+                case "Clouds":
+                    ((ImageView)item.findViewById(R.id.icono)).setImageResource(R.drawable.nublado);
+                    break;
+                case "Clear":
+                    ((ImageView)item.findViewById(R.id.icono)).setImageResource(R.drawable.soleado);
+                    break;
+                case "Snow":
+                    ((ImageView)item.findViewById(R.id.icono)).setImageResource(R.drawable.nieve);
+                    break;
+                case "Rain":
+                    ((ImageView)item.findViewById(R.id.icono)).setImageResource(R.drawable.lluvia);
+                    break;
+            }
+        descripcion=descripcion+5;
+        if(descripcion>=31){
+            descripcion=1;
+        }
+
+            ((TextView) item.findViewById(R.id.fecha)).setText("Fecha: "+getDateFromUTCTimestamp(UTC_TIMEZONE,OUTPUT_DATE_FORMATE));
+            ((TextView) item.findViewById(R.id.temperatura)).setText(datos.get(0).get(temp));
+        temp=temp+5;
+        if(temp>=32){
+            temp=2;
+        }
+            ((TextView) item.findViewById(R.id.temperaturaMax)).setText(datos.get(0).get(tempMax));
+        tempMax=tempMax+5;
+        if(tempMax>=33){
+            tempMax=3;
+        }
+            ((TextView) item.findViewById(R.id.temperaturaMinima)).setText(datos.get(0).get(tempMin));
+        tempMin=tempMin+5;
+        if(tempMin>=34){
+            tempMin=4;
+        }
+
         return item;
     }
 

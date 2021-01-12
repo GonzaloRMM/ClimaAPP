@@ -118,24 +118,13 @@ public class Clima extends AppCompatActivity {
                                                             datos.add(tempMax);
                                                             datos.add(tempMin);
                                                             arrayB.add(datos);
+                                                            //datos.clear();
                                                         }
+                                                        Log.i("illo",arrayB.size()+"");
+//                                                        Log.i("illo",arrayB.get(0).get(0));
+//                                                        Log.i("illo",arrayB.get(1).get(0));
+//                                                        Log.i("illo",arrayB.get(3).get(0));
                                                         crearAdapter(lv1,arrayB);
-
-                            /*
-                            JSONObject cityInfo = response.getJSONObject("main");
-                            String tiempoActual ="Temperatura: " + (cityInfo.getInt("temp") - 273) + "ºC";
-                            String tiempoMax="Temp Max: " + (cityInfo.getInt("temp_max") - 273) + "ºC";
-                            String tiempoMin="Temp Min: " + (cityInfo.getInt("temp_min") - 273) + "ºC";
-                            JSONArray weatherArray=response.getJSONArray("weather");
-                            JSONObject array=weatherArray.getJSONObject(0);
-                            String weather=array.getString("main");
-                            datos.add(weather);
-                            datos.add(tiempoActual);
-                            datos.add(tiempoMax);
-                            datos.add(tiempoMin);
-                            arrayB.add(datos);
-                            crearAdapter(lv1,arrayB);
-                            */
                                                     } catch (JSONException e) {
                                                         e.printStackTrace();
                                                     }
@@ -153,22 +142,6 @@ public class Clima extends AppCompatActivity {
                                         }
                                     });
                                     queue.add(jor2);
-
-                                    /*
-                                    JSONObject cityInfo = response.getJSONObject("main");
-                                    String tiempoActual ="Temperatura: " + (cityInfo.getInt("temp") - 273) + "ºC";
-                                    String tiempoMax="Temp Max: " + (cityInfo.getInt("temp_max") - 273) + "ºC";
-                                    String tiempoMin="Temp Min: " + (cityInfo.getInt("temp_min") - 273) + "ºC";
-                                    JSONArray weatherArray=response.getJSONArray("weather");
-                                    JSONObject array=weatherArray.getJSONObject(0);
-                                    String weather=array.getString("main");
-                                    datos.add(weather);
-                                    datos.add(tiempoActual);
-                                    datos.add(tiempoMax);
-                                    datos.add(tiempoMin);
-                                    arrayB.add(datos);
-                                    crearAdapter(lv1,arrayB);
-                                     */
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
