@@ -121,9 +121,6 @@ public class Clima extends AppCompatActivity {
                                                             //datos.clear();
                                                         }
                                                         Log.i("illo",arrayB.size()+"");
-//                                                        Log.i("illo",arrayB.get(0).get(0));
-//                                                        Log.i("illo",arrayB.get(1).get(0));
-//                                                        Log.i("illo",arrayB.get(3).get(0));
                                                         crearAdapter(lv1,arrayB);
                                                     } catch (JSONException e) {
                                                         e.printStackTrace();
