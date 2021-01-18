@@ -41,6 +41,9 @@ public class Clima extends AppCompatActivity {
     private String nombre_txt;
     private String lon, lat="";
 
+    TabLayout tabLayout;
+    ViewPager viewPager;
+    ArrayList<String>titulos=new ArrayList<String>();
 
     ArrayList<ArrayList<String>> arrayB = new ArrayList<>();
     ArrayList<String>datos=new ArrayList<String>();
@@ -48,16 +51,29 @@ public class Clima extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.clima);
+        //setContentView(R.layout.clima);
+        setContentView(R.layout.activity_tab);
 
-        lv1=(ListView)findViewById(R.id.lv_1);
+        lv1=(ListView)findViewById(R.id.lv);
         nombre=(TextView)findViewById(R.id.Nombre);
         volver=(Button)findViewById(R.id.volver_b);
         Bundle b= getIntent().getExtras();
         nombre_txt=b.getString("nombre");
 
+        tabLayout=findViewById(R.id.tabs);
+        viewPager=findViewById(R.id.view_pager);
+        titulos.add("Today");
+        titulos.add("48H");
+        titulos.add("7 Days");
+        TextView textView=(TextView)findViewById(R.id.title);
+        textView.setText(nombre_txt);
+
+        prepareViewPager(viewPager,titulos);
+        tabLayout.setupWithViewPager(viewPager);
+
         recogerDatos();
-        asignarNombre(nombre);
+        //asignarNombre(nombre);
+        /*
         volver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +81,25 @@ public class Clima extends AppCompatActivity {
                 finish();
             }
         });
+
+         */
     }
+
+    private void prepareViewPager(ViewPager viewPager, ArrayList<String> titulos) {
+        PagerAdapter pagerAdapter=new PagerAdapter(getSupportFragmentManager());
+        MainFragment mainFragment=new MainFragment();
+        for(int i=0;i<titulos.size();i++){
+            Bundle bundle=new Bundle();
+            bundle.putString("city",nombre_txt);
+            bundle.putStringArrayList("datos",datos);
+
+            mainFragment.setArguments(bundle);
+            pagerAdapter.addFragment(mainFragment,titulos.get(i));
+            mainFragment=new MainFragment();
+        }
+        viewPager.setAdapter(pagerAdapter);
+    }
+
     private void asignarNombre(TextView nombre) {
         nombre.setText(nombre_txt.toUpperCase());
     }
@@ -134,8 +168,8 @@ public class Clima extends AppCompatActivity {
                                             datos.add("404");
                                             datos.add("CIUDAD");
                                             datos.add("ERRONEA");
-                                            arrayB.add(datos);
-                                            crearAdapter(lv1,arrayB);
+                                            //arrayB.add(datos);
+                                            //crearAdapter(lv1,arrayB);
                                         }
                                     });
                                     queue.add(jor2);

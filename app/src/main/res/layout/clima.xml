@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout android:layout_height="wrap_content"
     android:layout_width="wrap_content"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tablayout"
@@ -18,14 +20,14 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="7 days"
-            android:id="@+id/sevenDays"/>
+            android:text="48H"
+            android:id="@+id/twoDays"/>
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="14 days"
-            android:id="@+id/fourteenDays"/>
+            android:text="7 days"
+            android:id="@+id/sevenDays"/>
     </com.google.android.material.tabs.TabLayout>
 
     <TextView
