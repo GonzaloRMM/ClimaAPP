@@ -40,6 +40,7 @@ public class Clima extends AppCompatActivity {
     private Button volver;
     private String nombre_txt;
     private String lon, lat="";
+    int repeticion=0;
 
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -54,11 +55,13 @@ public class Clima extends AppCompatActivity {
         //setContentView(R.layout.clima);
         setContentView(R.layout.activity_tab);
 
+
         lv1=(ListView)findViewById(R.id.lv);
         nombre=(TextView)findViewById(R.id.Nombre);
         volver=(Button)findViewById(R.id.volver_b);
         Bundle b= getIntent().getExtras();
         nombre_txt=b.getString("nombre");
+
 
         tabLayout=findViewById(R.id.tabs);
         viewPager=findViewById(R.id.view_pager);
@@ -68,10 +71,13 @@ public class Clima extends AppCompatActivity {
         TextView textView=(TextView)findViewById(R.id.title);
         textView.setText(nombre_txt);
 
-        prepareViewPager(viewPager,titulos);
-        tabLayout.setupWithViewPager(viewPager);
+        for(int i=0;i<titulos.size();i++){
+            recogerDatos(i);
+        }
 
-        recogerDatos();
+
+
+
         //asignarNombre(nombre);
         /*
         volver.setOnClickListener(new View.OnClickListener() {
@@ -88,14 +94,15 @@ public class Clima extends AppCompatActivity {
     private void prepareViewPager(ViewPager viewPager, ArrayList<String> titulos) {
         PagerAdapter pagerAdapter=new PagerAdapter(getSupportFragmentManager());
         MainFragment mainFragment=new MainFragment();
+
         for(int i=0;i<titulos.size();i++){
             Bundle bundle=new Bundle();
             bundle.putString("city",nombre_txt);
             bundle.putStringArrayList("datos",datos);
-
             mainFragment.setArguments(bundle);
             pagerAdapter.addFragment(mainFragment,titulos.get(i));
             mainFragment=new MainFragment();
+
         }
         viewPager.setAdapter(pagerAdapter);
     }
@@ -109,7 +116,14 @@ public class Clima extends AppCompatActivity {
         lv.setAdapter(adapter);
     }
 
-    public void recogerDatos(){
+    public void recogerDatos(int num){
+        if(num==0){
+            repeticion=0;
+        }else if(num==1){
+            repeticion=2;
+        }else if(num==2){
+            repeticion=7;
+        }
             RequestQueue queue= Volley.newRequestQueue(Clima.this);
             String url="https://api.openweathermap.org/data/2.5/weather?q="+nombre_txt+"&appid=c5e8291c1d20ea05cb1bd81589023f00";
 
@@ -135,7 +149,7 @@ public class Clima extends AppCompatActivity {
                                                 public void onResponse(JSONObject response2) {
                                                     try {
                                                         JSONArray weather = response2.getJSONArray("daily");
-                                                        for(int i=0;i<7;i++){
+                                                        for(int i=0;i<repeticion;i++){
                                                             JSONObject array = weather.getJSONObject(i);
                                                             String dt=array.getInt("dt")+"";
                                                             JSONArray weatherArray=array.getJSONArray("weather");
@@ -155,7 +169,9 @@ public class Clima extends AppCompatActivity {
                                                             //datos.clear();
                                                         }
                                                         Log.i("illo",arrayB.size()+"");
-                                                        crearAdapter(lv1,arrayB);
+                                                        prepareViewPager(viewPager,titulos);
+                                                        tabLayout.setupWithViewPager(viewPager);
+                                                        //crearAdapter(lv1,arrayB);
                                                     } catch (JSONException e) {
                                                         e.printStackTrace();
                                                     }
@@ -188,7 +204,7 @@ public class Clima extends AppCompatActivity {
                     datos.add("CIUDAD");
                     datos.add("ERRONEA");
                     arrayB.add(datos);
-                    crearAdapter(lv1,arrayB);
+                    //crearAdapter(lv1,arrayB);
                 }
             });
         queue.add(jor);

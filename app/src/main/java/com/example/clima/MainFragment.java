@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,9 +78,15 @@ public class MainFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_main, container, false);
-        lv1=(ListView)view.findViewById(R.id.lv_1);
+        lv1=(ListView)view.findViewById(R.id.lv);
         sTitle=getArguments().getString("city");
         volver=(Button)view.findViewById(R.id.volver_b);
+        datos=getArguments().getStringArrayList("datos");
+        Log.i("fragment",datos+"");
+
+        ArrayList<ArrayList<String>>arrayb=new ArrayList<ArrayList<String>>();
+        arrayb.add(datos);
+        crearAdapter(lv1,arrayb);
         volver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,12 +94,10 @@ public class MainFragment extends Fragment {
                 System.exit(0);
             }
         });
-        /*
-        datos=getArguments().getStringArrayList("datos");
-        arrayB.add(datos);
-        Adaptardor adapter = new Adaptardor(getActivity(),arrayB);
-        lv1.setAdapter(adapter);
-         */
         return view;
+    }
+    public void crearAdapter(ListView lv, ArrayList<ArrayList<String>> datos){
+        Adaptardor adapter = new Adaptardor(getActivity(),datos);
+        lv.setAdapter(adapter);
     }
 }
