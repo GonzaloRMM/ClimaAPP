@@ -71,8 +71,8 @@ public class MainFragment extends Fragment {
 
     String sTitle;
 
-    ArrayList<ArrayList<String>> arrayB = new ArrayList<>();
     ArrayList<String>datos=new ArrayList<String>();
+    ArrayList<ArrayList<String>>arrayb=new ArrayList<ArrayList<String>>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,13 +84,36 @@ public class MainFragment extends Fragment {
         datos=getArguments().getStringArrayList("datos");
         Log.i("fragment",datos+"");
 
-        ArrayList<ArrayList<String>>arrayb=new ArrayList<ArrayList<String>>();
-        arrayb.add(datos);
+
+
+        //arrayb.add(datos);
+        //crearAdapter(lv1,arrayb);
+        ArrayList<String>datosOrdenados=new ArrayList<String>();
+        float num=0;
+        for(int i=0;i<datos.size();i++){
+            //Log.i("dato introducido",datos.get(i));d
+            datosOrdenados.add(datos.get(i));
+            num++;
+            if(i>35){
+                datos.clear();
+                num=1;
+            }
+            else if(num%5==0.0){
+                Log.i("datos ordendaos",datosOrdenados+"");
+                arrayb.add(datosOrdenados);
+                datosOrdenados.clear();
+                //Log.i("arrayb",arrayb+"");
+                Log.i("i",i+"");
+            }
+        }
+
         crearAdapter(lv1,arrayb);
+
+
         volver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                arrayB.clear();
+                arrayb.clear();
                 System.exit(0);
             }
         });

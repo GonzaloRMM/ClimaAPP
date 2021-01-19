@@ -37,14 +37,16 @@ public class Adaptardor extends ArrayAdapter {
 
         View item = inflater.inflate(R.layout.list_view,null);
 
-
-            long UTC_TIMEZONE=Long.parseLong(datos.get(0).get(fecha));
+        Log.i("cantidad final de datos "+position,datos.size()+"");
+            long UTC_TIMEZONE=Long.parseLong(datos.get(position).get(fecha));
             String OUTPUT_DATE_FORMATE="dd/MM/yyyy";
 
             fecha=fecha+5;
         if(fecha>=35){
             fecha=0;
         }
+
+
 
             switch (datos.get(0).get(descripcion)){
                 case "Clouds":
