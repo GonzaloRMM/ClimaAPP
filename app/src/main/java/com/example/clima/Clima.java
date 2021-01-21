@@ -74,21 +74,6 @@ public class Clima extends AppCompatActivity {
         for(int i=0;i<titulos.size();i++){
             recogerDatos(i);
         }
-
-
-
-
-        //asignarNombre(nombre);
-        /*
-        volver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                arrayB.clear();
-                finish();
-            }
-        });
-
-         */
     }
 
     private void prepareViewPager(ViewPager viewPager, ArrayList<String> titulos) {
@@ -98,6 +83,7 @@ public class Clima extends AppCompatActivity {
         for(int i=0;i<titulos.size();i++){
             Bundle bundle=new Bundle();
             bundle.putString("city",nombre_txt);
+            bundle.putInt("tab",i);
             bundle.putStringArrayList("datos",datos);
             mainFragment.setArguments(bundle);
             pagerAdapter.addFragment(mainFragment,titulos.get(i));
@@ -184,8 +170,10 @@ public class Clima extends AppCompatActivity {
                                             datos.add("404");
                                             datos.add("CIUDAD");
                                             datos.add("ERRONEA");
-                                            //arrayB.add(datos);
+                                            arrayB.add(datos);
                                             //crearAdapter(lv1,arrayB);
+                                            prepareViewPager(viewPager,titulos);
+                                            tabLayout.setupWithViewPager(viewPager);
                                         }
                                     });
                                     queue.add(jor2);
@@ -204,6 +192,8 @@ public class Clima extends AppCompatActivity {
                     datos.add("CIUDAD");
                     datos.add("ERRONEA");
                     arrayB.add(datos);
+                    prepareViewPager(viewPager,titulos);
+                    tabLayout.setupWithViewPager(viewPager);
                     //crearAdapter(lv1,arrayB);
                 }
             });

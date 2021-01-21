@@ -33,22 +33,19 @@ public class Adaptardor extends ArrayAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent){
+
         LayoutInflater inflater = context.getLayoutInflater();
 
         View item = inflater.inflate(R.layout.list_view,null);
 
-        Log.i("cantidad final de datos "+position,datos.size()+"");
-            long UTC_TIMEZONE=Long.parseLong(datos.get(position).get(fecha));
+            long UTC_TIMEZONE=Long.parseLong(datos.get(0).get(0));
             String OUTPUT_DATE_FORMATE="dd/MM/yyyy";
 
             fecha=fecha+5;
         if(fecha>=35){
-            fecha=0;
+            fecha=30;
         }
-
-
-
-            switch (datos.get(0).get(descripcion)){
+            switch (datos.get(0).get(1)){
                 case "Clouds":
                     ((ImageView)item.findViewById(R.id.icono)).setImageResource(R.drawable.nublado);
                     break;
@@ -68,17 +65,17 @@ public class Adaptardor extends ArrayAdapter {
         }
 
             ((TextView) item.findViewById(R.id.fecha)).setText("Fecha: "+getDateFromUTCTimestamp(UTC_TIMEZONE,OUTPUT_DATE_FORMATE));
-            ((TextView) item.findViewById(R.id.temperatura)).setText(datos.get(0).get(temp));
+            ((TextView) item.findViewById(R.id.temperatura)).setText(datos.get(0).get(2));
         temp=temp+5;
         if(temp>=32){
             temp=2;
         }
-            ((TextView) item.findViewById(R.id.temperaturaMax)).setText(datos.get(0).get(tempMax));
+            ((TextView) item.findViewById(R.id.temperaturaMax)).setText(datos.get(0).get(3));
         tempMax=tempMax+5;
         if(tempMax>=33){
             tempMax=3;
         }
-            ((TextView) item.findViewById(R.id.temperaturaMinima)).setText(datos.get(0).get(tempMin));
+            ((TextView) item.findViewById(R.id.temperaturaMinima)).setText(datos.get(0).get(4));
         tempMin=tempMin+5;
         if(tempMin>=34){
             tempMin=4;

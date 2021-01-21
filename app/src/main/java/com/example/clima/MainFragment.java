@@ -64,10 +64,8 @@ public class MainFragment extends Fragment {
         }
     }
     private ListView lv1;
-    private TextView nombre;
     private Button volver;
-    private String nombre_txt;
-    private String lon, lat="";
+    private int tab=0;
 
     String sTitle;
 
@@ -80,35 +78,25 @@ public class MainFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_main, container, false);
         lv1=(ListView)view.findViewById(R.id.lv);
         sTitle=getArguments().getString("city");
+        tab=getArguments().getInt("tab");
         volver=(Button)view.findViewById(R.id.volver_b);
         datos=getArguments().getStringArrayList("datos");
-        Log.i("fragment",datos+"");
 
 
+        if(tab==0){
+            ArrayList<String>datosTab1=new ArrayList<String>();
+            ArrayList<ArrayList<String>>arrayTab1=new ArrayList<ArrayList<String>>();
+            crearDatos(5,datosTab1,arrayTab1);
 
-        //arrayb.add(datos);
-        //crearAdapter(lv1,arrayb);
-        ArrayList<String>datosOrdenados=new ArrayList<String>();
-        float num=0;
-        for(int i=0;i<datos.size();i++){
-            //Log.i("dato introducido",datos.get(i));d
-            datosOrdenados.add(datos.get(i));
-            num++;
-            if(i>35){
-                datos.clear();
-                num=1;
-            }
-            else if(num%5==0.0){
-                Log.i("datos ordendaos",datosOrdenados+"");
-                arrayb.add(datosOrdenados);
-                datosOrdenados.clear();
-                //Log.i("arrayb",arrayb+"");
-                Log.i("i",i+"");
-            }
+        }else if(tab==1){
+            ArrayList<String>datosTab2=new ArrayList<String>();
+            ArrayList<ArrayList<String>>arrayTab2=new ArrayList<ArrayList<String>>();
+            crearDatos(10,datosTab2,arrayTab2);
+        }else if(tab==2){
+            ArrayList<String>datosTab3=new ArrayList<String>();
+            ArrayList<ArrayList<String>>arrayTab3=new ArrayList<ArrayList<String>>();
+            crearDatos(35,datosTab3,arrayTab3);
         }
-
-        crearAdapter(lv1,arrayb);
-
 
         volver.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,5 +110,19 @@ public class MainFragment extends Fragment {
     public void crearAdapter(ListView lv, ArrayList<ArrayList<String>> datos){
         Adaptardor adapter = new Adaptardor(getActivity(),datos);
         lv.setAdapter(adapter);
+    }
+    public void crearDatos(int tabNum,ArrayList<String>datosOrdenados,ArrayList<ArrayList<String>>arrayTab){
+        float num=0;
+        for(int i=0;i<tabNum;i++){
+            datosOrdenados.add(datos.get(i));
+            num++;
+            if(i>35){
+                datos.clear();
+                num=1;
+            }else if(num%5==0.0){
+                arrayTab.add(datosOrdenados);
+            }
+        }
+        crearAdapter(lv1,arrayTab);
     }
 }
